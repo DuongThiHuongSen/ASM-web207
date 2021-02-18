@@ -1,0 +1,44 @@
+{
+  "product": [
+    {
+      "id": 1,
+      "name": "theanhoccho",
+      "price": 2300,
+      "category":1
+    },
+    {
+      "id": 2,
+      "name": "vananhgadoi",
+      "price": 2300,
+      "category":1
+    },
+    {
+      "id": 3,
+      "name": "myngao",
+      "price": 2300,
+      "category":1
+    }
+  ],
+  "category": [
+    {
+      "id": 1,
+      "category_name": "ĐỒNG HỒ NAM"
+    },
+    {
+      "id": 2,
+      "category_name": "ĐỒNG HỒ NỮ"
+    },
+    {
+      "id": 3,
+      "category_name": "ĐỒNG HỒ ĐÔI"
+    },
+    {
+      "id": 4,
+      "category_name": "ĐỒNG HỒ TRẺ EM"
+    },
+    {
+      "id": 5,
+      "category_name": "ĐỒNG HỒ THÔNG MINH"
+    }
+  ]
+}
