@@ -11,7 +11,7 @@ function Header() {
         </div>
         <div className="flex w-2/4   items-center">
             <ul className="flex text-white mx-auto">
-                <li className="mx-2 lg:mx-5 "><Link to="/product">SẢN PHẨM</Link></li>
+                <li className="mx-2 lg:mx-5 "><Link to="/admin">SẢN PHẨM</Link></li>
                 <li className="mx-2 lg:mx-5"><Link to="">TIN TỨC</Link></li>
                 <li className="mx-2 lg:mx-5"><Link to="">HỖ TRỢ</Link></li>
                 <li className="mx-2 lg:mx-5"><Link to="">ĐƠN HÀNG</Link></li>

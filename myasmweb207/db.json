@@ -2,21 +2,83 @@
   "product": [
     {
       "id": 1,
-      "name": "theanhoccho",
-      "price": 2300,
-      "category":1
+      "name": "OG358.61AGR-GL",
+      "price": "20.780.000",
+      "cate_id": 1,
+      "status": true,
+      "quantity": 100,
+      "image": "https://xwatch.vn/images/products/2020/04/28/large/dongho-ogival-og35861agr-gl-avatar_1588061214.jpg",
+      "description": "Ogival Nam - 42mm - Kính Sapphire"
     },
     {
       "id": 2,
-      "name": "vananhgadoi",
-      "price": 2300,
-      "category":1
+      "name": "Đồng hồ Nam Kenneth Cole KC50982003",
+      "price": "1.208.000",
+      "cate_id": 1,
+      "status": true,
+      "quantity": 100,
+      "image": "https://cdn.tgdd.vn/Products/Images/7264/209733/kenneth-cole-kc50982003-nam-avatar-1-400x400.jpg",
+      "description": "Kiểu dáng hiện đại, thanh lịch"
     },
     {
       "id": 3,
-      "name": "myngao",
+      "name": "OG358.61AGR-GL",
+      "price": "20.780.000",
+      "cate_id": 1,
+      "status": true,
+      "quantity": 100,
+      "image": "https://xwatch.vn/images/products/2020/04/23/large/dong-ho-ogival-og358652agsr-t-1_1587629316.jpg",
+      "description": "Ogival Nam - 42mm - Kính Sapphire"
+    },
+    {
+      "id": 4,
+      "name": "Superman Daumier",
       "price": 2300,
-      "category":1
+      "cate_id": 1,
+      "status": true,
+      "quantity": "100555",
+      "image": "https://cdn.tgdd.vn/Products/Images/7264/216212/daumier-dm-jlw016-sssn-2snn-s-m-nam-1-1-400x400.jpg",
+      "description": "Daumier Justice League nhận 6 siêu anh hùng trong Justice League"
+    },
+    {
+      "id": 5,
+      "name": "Michael Kors MK3203",
+      "price": "5.201.000",
+      "cate_id": 2,
+      "status": true,
+      "quantity": 100,
+      "image": "https://cdn.tgdd.vn/Products/Images/7264/198576/michael-kors-mk3203-vang-hong-0-400x400.jpg",
+      "description": "Thiết kế sang trọng, trang nhã"
+    },
+    {
+      "id": 6,
+      "name": "Pierre Cardin PCX8513L513",
+      "price": "999.000",
+      "cate_id": 2,
+      "status": true,
+      "quantity": 100,
+      "image": "https://cdn.tgdd.vn/Products/Images/7264/209720/pierre-cardin-pcx7560l304-nu-1-600x600.jpg",
+      "description": "Khả năng chịu lực tốt"
+    },
+    {
+      "id": 7,
+      "name": "Julius JS-037B",
+      "price": "1.399.000",
+      "cate_id": 2,
+      "status": true,
+      "quantity": 100,
+      "image": "https://cdn.tgdd.vn/Products/Images/7264/213040/julius-js-037b-nu-avatar-1-600x600.jpg",
+      "description": "Tinh tế và thời thượng"
+    },
+    {
+      "id": 8,
+      "name": "Casio LQ-139AMV-1LDF",
+      "price": "359.000",
+      "cate_id": 2,
+      "status": true,
+      "quantity": 100,
+      "image": "https://cdn.tgdd.vn/Products/Images/7264/199439/casio-lq-139amv-1ldf-den-5-600x600.jpg",
+      "description": "Khả năng chịu lực tốt"
     }
   ],
   "category": [
