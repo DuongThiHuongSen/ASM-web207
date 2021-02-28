@@ -1,14 +1,16 @@
 
 import { makeStyles } from '@material-ui/core/styles';
-import axios from 'axios';
-import {useState, useEffect} from 'react';
-import Product from './Adminstrator/Porduct_manage';
-import CreateProduct from './Adminstrator/CreateProduct';
+import React from 'react';
 import Container from '@material-ui/core/Container';
-// import { confirmAlert } from 'react-confirm-alert';
-
-// import Swal from 'sweetalert2/dist/sweetalert2.js';
-// import 'sweetalert2/src/sweetalert2.scss'
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import CollectionsBookmarkIcon from '@material-ui/icons/CollectionsBookmark';
+import WatchIcon from '@material-ui/icons/Watch';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import  AdminCate from './AdminCate'
+import AdminProduct from './AdminProduct'
+import AdminOrder from './AdminOrder'
 
 const useStyles = makeStyles({
     table: {
@@ -18,50 +20,48 @@ const useStyles = makeStyles({
 
 
 function Admin() {
-    const initValue = [];
-    const [product, setproducts] = useState(initValue);
-    const [clickRow, setClickRow] = useState(-1);
-    const [formData, setformData] = useState({
-    id: '',
-    name: '',
-    price: '',
-    cate_id: '',
-    status : true,
-    quantity: '',
-    image:'',
-    description: '',
-  });
-    useEffect(() => {
-        async function getProduct() {
-          const {data} = await axios.get("http://localhost:3040/product");
-          console.log(data);
-          setproducts(data);
-        }
-        getProduct();
-      }, []);
     
+  const classes = useStyles();
+  const [value, setValue] = React.useState(0);
+  const a1style = {
+    padding: "40px 30px 5px 30px",
+  }
     return(
-        <div>
-            <div className="h-28"></div>
+        <div className="max-w-full bg-gray-100">
+            <Router>
+            <div className="h-28 relative"></div>
             <Container maxWidth="md">
-            <h1>Đây là trang quản trị viên</h1>
-            <h2>Sản phẩm : </h2>
-            <CreateProduct 
-                clickRow={clickRow} 
-                formData={formData} 
-                setformData={setformData}
-                setproduct={setproducts}
-                product={product}
-                setClickRow ={setClickRow}
-            />
+              <BottomNavigation
+                value={value}
+                onChange={(event, newValue) => {
+                  setValue(newValue);
+                }}
+                showLabels
+                className={classes.root}
+              >
+                <BottomNavigationAction 
+                  label={<Link to="/Product" style={a1style}>Product </Link>}  
+                  icon={<WatchIcon/>} 
+                />
+
+                <BottomNavigationAction 
+                  label={<Link to="/category" style={a1style}>Category </Link>} 
+                  icon={<CollectionsBookmarkIcon/>} 
+                />
+                
+                <BottomNavigationAction 
+                  label={<Link to="/order" style={a1style}>order</Link>} 
+                  icon={<FileCopyIcon/>} 
+                />
+                
+              </BottomNavigation>
             </Container>
-            < Product 
-                product={product}
-                setproduct={setproducts}
-                setformData={setformData} // set giá trị cho form hiển thị
-                setClickRow ={setClickRow}
-                clickRow={clickRow}
-            />
+  
+            <Route path="/Product" component={ AdminProduct } />
+            <Route path="/category" component={ AdminCate }/>
+            <Route path="/order" component={ AdminOrder }/>
+            <Route path="/admin" component={ AdminProduct }  exact={true}/>
+            </Router>
         </div>
     );
 }

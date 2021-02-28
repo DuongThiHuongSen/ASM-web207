@@ -3,10 +3,39 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import {useState} from 'react';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Select from '@material-ui/core/Select';
+import Container from '@material-ui/core/Container';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
-function CreateProduct({clickRow,formData, setformData,setproduct,product,setClickRow}) {
+const useStyles = makeStyles((theme) => ({
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+  }));
+
+function CreateProduct({clickRow,formData, setformData,setproduct,product,setClickRow, cate, setcate}) {
+    const classes = useStyles();
+    const CatehandleChange = (event) => {
+        setformData({...formData,cate_id:event.target.value});
+    };
     const Swal = require('sweetalert2');
     const [fileUpload, setfileUpload] = useState(null);
+    // const [fileUpload, setfileUpload] = useState(null);
+    
+    const handleChangeDense = (event) => {
+        setformData({...formData,status: event.target.checked});
+        // console.log(event.target.checked);
+      };
     const onSubmitHanger = async (event) => {
         event.preventDefault(); // không load lại trang
         if(clickRow != -1){ // cập nhật thông tin
@@ -20,13 +49,15 @@ function CreateProduct({clickRow,formData, setformData,setproduct,product,setCli
                 if(response.status && response.status == 200){
                     setproduct(product=[...product.slice(0, clickRow),formData, ...product.slice(clickRow+1, product.length)]); // set lại Products
                     Swal.fire('Update successfully!', '', 'success');
+                    // console.log("product : ");
+                    // console.log(product);
                 }
             } catch (error) {
                 console.error(error)
             }
             
         }else{
-            console.log("Click row onsubmit: == -1 ",clickRow);
+            // console.log("Click row onsubmit: == -1 ",clickRow);
             //Thêm một dòng mới
             try {
                 const url = `http://localhost:3040/product`;
@@ -39,6 +70,7 @@ function CreateProduct({clickRow,formData, setformData,setproduct,product,setCli
                     // console.log(response);
                     setproduct(product=[...product, response.data]); // set lại Products
                     Swal.fire('Create new record successfully!', '', 'success');
+                    myClickClear();
                 }
             } catch (error) {
                 console.error(error)
@@ -63,11 +95,12 @@ function CreateProduct({clickRow,formData, setformData,setproduct,product,setCli
         setformData({...formData,[name]:value});
         // console.log(formData);
     }
+    // const maxID = Math.max.apply(Math, product.map(x => x.id));
 
     const myClickClear = (event) => {
         setClickRow(-1);
         setformData({
-            id: product.length+1,
+            id: '',
             name: '',
             price: '',
             cate_id: '',
@@ -78,10 +111,13 @@ function CreateProduct({clickRow,formData, setformData,setproduct,product,setCli
           });
     }
 
+    
     const divStyle = {
        height: '5px',
        width:'100%',
       };
+
+    
     // onChange={ myChangeHandler}
     return(
         <div>
@@ -101,18 +137,40 @@ function CreateProduct({clickRow,formData, setformData,setproduct,product,setCli
                 <TextField fullWidth variant="filled" label="quantity" name="quantity" 
                     value={formData.quantity} 
                     onChange={ myChangeHandler}/>
-                <div>
-
-                    <Button variant="contained" component="label" >
-                        Upload File
-                        <input type="file" hidden name="image" accept="image/*" onChange={imageHandler}/>
-                    </Button>
-                    <img src={formData.image} width="200px"/>
+                    <FormControlLabel
+                        control={<Switch checked={formData.status} onChange={handleChangeDense} />}
+                        label="Activate"
+                    />
+                    <span className="ml-8">   </span>
+                    <FormControl className={classes.formControl}>
+                        <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                        <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={formData.cate_id}
+                        onChange={CatehandleChange}
+                        >
+                        {cate.map((value, index) => (
+                            <MenuItem key={index} value={value.id} >{value.category_name}</MenuItem>
+                        ))}
+                        
+                        </Select>
+                    </FormControl>
                     
-                </div>
-                <div style={divStyle}></div>
-                <Button variant="contained" color="secondary" type="submit">SUBMIT</Button>
-                <Button variant="contained" color="secondary" onClick={myClickClear} >Clear Form</Button>
+                    <div>
+
+                        <Button variant="contained" component="label"  >
+                            Upload File
+                            <input type="file" hidden name="image" accept="image/*" onChange={imageHandler}/>
+                        </Button>
+                        <center><img src={formData.image} width="400px" className="rounded-2xl"/></center>
+                        
+                    </div>
+                    <div style={divStyle}></div>
+                    <Button variant="contained" color="secondary" type="submit">SUBMIT</Button>
+                    <span className="mr-12">   </span>
+                    <Button variant="contained" color="primary" onClick={myClickClear} >Clear Form</Button>
+                
             </form>
             <br></br>
         </div>

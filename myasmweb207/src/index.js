@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { HashRouter,Route } from "react-router-dom";
-import history from './history';
+// import { HashRouter,Route } from "react-router-dom";
+// import history from './history';
 // import { browserHistory } from 'react-router';
 ReactDOM.render(
   // <HashRouter history={history}>
