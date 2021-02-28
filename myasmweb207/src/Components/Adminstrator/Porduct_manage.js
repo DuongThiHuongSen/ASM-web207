@@ -92,6 +92,7 @@ function Product_manage({product, setClickRow, setformData, setproduct,clickRow,
                             image:'',
                             description: ''
                           });
+                        
                     }
                 } catch (error) {
                     console.error(error);

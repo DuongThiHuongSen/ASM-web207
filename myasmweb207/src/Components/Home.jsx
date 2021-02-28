@@ -6,10 +6,13 @@ import Introduce from './Body/Introduction';
 import Foot from './Footer/Foot'; 
 import axios from 'axios';
 import {useState, useEffect} from 'react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import ProductByCate from './ProductByCate';
 function Home(params) {
   const initValue = [];
   const [productnam, setproductsNam] = useState(initValue);
   const [productnu, setproductsNu] = useState(initValue);
+  const [cateView, setcateView] = useState(-1);
   const [cates, setcates] = useState(initValue);
   const [cart, setcart] = useState(initValue);
   const [formData, setformData] = useState({
@@ -37,27 +40,43 @@ function Home(params) {
         const {data} = await axios.get(`http://localhost:3040/cart`);
         console.log(data);
         setcart(data);
-        
       }
 
       getcate();
       getProductNam(urlNam);
       getProductNu(urlNu);
-      
-      // getProductforkey(search);
       getcart();
     }, []);
 
   return(
-      <div class="w-full mx-auto">
-      <Banner/>
-      <Category cate={cates}/>
-      <TopWatch productsNam={productnam} 
-                productsNu={productnu}
+    <div class="w-full mx-auto">
+      <Router>
+        <Banner/>
+        <Category cate={cates}
+                  setcateView = {setcateView}
+        />
+        <Route path="/"  exact={true} >
+          <TopWatch productsNam={productnam} 
+                  productsNu={productnu}
+                  cart= {cart}
+                  formData = {formData}/>
+        </Route>
+        
+        {cates.map((value, index)=> 
+          (
+            <Route path={'/category/'+value.id}  exact={true} >
+              <ProductByCate 
                 cart= {cart}
-                formData = {formData}/>
-      <Introduce/>
-      <Foot/>
+                cateView={cateView}
+              />
+            </Route>
+          )
+        )}
+
+        <Introduce/>
+        <Foot/>
+      
+      </Router>
     </div>
   );
 }

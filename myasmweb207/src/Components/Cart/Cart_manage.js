@@ -22,7 +22,7 @@ const useStyles = makeStyles({
   });
   
 
-function Cart_manage({cart, setcart, product, order, setorder }) {
+function Cart_manage({cart, setcart, product }) {
     var today = new Date();
     var curentdate = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
     const Swal = require('sweetalert2');
@@ -91,8 +91,8 @@ function Cart_manage({cart, setcart, product, order, setorder }) {
                 data: dataPush,
             });
             if(response.status && response.status == 201){
-                console.log(response);
-                setorder(order=[...order, response.data]); 
+                // console.log(response);
+                // setorder(order=[...order, response.data]); 
             }
         } catch (error) {
             console.error(error)
@@ -103,9 +103,9 @@ function Cart_manage({cart, setcart, product, order, setorder }) {
         try {
             const url = `http://localhost:3040/cart/${ id }`;
             const response = await axios.delete(url);
-            console.log(response);
+            // console.log(response);
             if (response.status && response.status === 200) {
-                console.log("delete xong id = "+ id);
+                // console.log("delete xong id = "+ id);
             }
         } catch (error) {
             console.error(error);

@@ -173,14 +173,14 @@ function Product_manage({ setClickRow, setformData,clickRow, cate, setcate, prod
       // get list product from idcate
       const listProductChange = product.filter( element => element.cate_id == idCate);
       listProductChange.map( async (product, index) => {
-        console.log(product.id);
+        // console.log(product.id);
         try {
           const url = `http://localhost:3040/product/${ product.id }`;
           const response = await axios.put(url,{...product, status: statusChange});
           console.log(response);
           if (response.status && response.status == 200) {
               // Swal.fire(`Update ${index+1} successfully!`, '', 'success');
-              console.log(`Update ${index+1} successfully!`);
+              // console.log(`Update ${index+1} successfully!`);
           }
         } catch (error) {
             console.error(error);

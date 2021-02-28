@@ -12,6 +12,7 @@ import Select from '@material-ui/core/Select';
 import Container from '@material-ui/core/Container';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import { useForm } from "react-hook-form";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -24,12 +25,25 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 function CreateProduct({clickRow,formData, setformData,setproduct,product,setClickRow, cate, setcate}) {
+
+    const { register, handleSubmit, watch, errors } = useForm();
     const classes = useStyles();
     const CatehandleChange = (event) => {
         setformData({...formData,cate_id:event.target.value});
+        ValidateForm({...formData,cate_id:event.target.value});
+        console.log("validtae 34");
     };
     const Swal = require('sweetalert2');
     const [fileUpload, setfileUpload] = useState(null);
+    var err = {
+        errname: '',
+        errcate: '',
+        errdescription: '',
+        errimage: '',
+        errquantity: '',
+        errprice: ''
+    };
+    const [errs, seterrs] = useState(err);
     // const [fileUpload, setfileUpload] = useState(null);
     
     const handleChangeDense = (event) => {
@@ -38,54 +52,102 @@ function CreateProduct({clickRow,formData, setformData,setproduct,product,setCli
       };
     const onSubmitHanger = async (event) => {
         event.preventDefault(); // không load lại trang
-        if(clickRow != -1){ // cập nhật thông tin
-            try {
-                const url = `http://localhost:3040/product/${formData.id}`;
-                const response = await axios({
-                    method:'PUT',
-                    url: url,
-                    data: formData,
-                });
-                if(response.status && response.status == 200){
-                    setproduct(product=[...product.slice(0, clickRow),formData, ...product.slice(clickRow+1, product.length)]); // set lại Products
-                    Swal.fire('Update successfully!', '', 'success');
-                    // console.log("product : ");
-                    // console.log(product);
+        ValidateForm(formData);
+        console.log(formData);
+        if( err.errname.length == 0 && 
+            err.errcate.length == 0 &&
+            err.errimage.length == 0 &&
+            err.errprice.length == 0 &&
+            err.errdescription.length == 0 &&
+            err.errquantity.length == 0
+            ){
+                if(clickRow != -1){ // cập nhật thông tin
+                    try {
+                        const url = `http://localhost:3040/product/${formData.id}`;
+                        const response = await axios({
+                            method:'PUT',
+                            url: url,
+                            data: formData,
+                        });
+                        if(response.status && response.status == 200){
+                            setproduct(product=[...product.slice(0, clickRow),formData, ...product.slice(clickRow+1, product.length)]); // set lại Products
+                            Swal.fire('Update successfully!', '', 'success');
+                            // console.log("product : ");
+                            // console.log(product);
+                        }
+                    } catch (error) {
+                        console.error(error)
+                    }
+                    
+                }else{
+                    // console.log("Click row onsubmit: == -1 ",clickRow);
+                    //Thêm một dòng mới
+                    try {
+                        const url = `http://localhost:3040/product`;
+                        const response = await axios({
+                            method:'POST',
+                            url: url,
+                            data: formData,
+                        });
+                        if(response.status && response.status == 201){
+                            // console.log(response);
+                            setproduct(product=[...product, response.data]); // set lại Products
+                            Swal.fire('Create new record successfully!', '', 'success');
+                            myClickClear();
+                        }
+                    } catch (error) {
+                        console.error(error)
+                    }
                 }
-            } catch (error) {
-                console.error(error)
-            }
-            
         }else{
-            // console.log("Click row onsubmit: == -1 ",clickRow);
-            //Thêm một dòng mới
-            try {
-                const url = `http://localhost:3040/product`;
-                const response = await axios({
-                    method:'POST',
-                    url: url,
-                    data: formData,
-                });
-                if(response.status && response.status == 201){
-                    // console.log(response);
-                    setproduct(product=[...product, response.data]); // set lại Products
-                    Swal.fire('Create new record successfully!', '', 'success');
-                    myClickClear();
-                }
-            } catch (error) {
-                console.error(error)
-            }
+            console.log(err);
         }
+        
         
     }
     
+    const ValidateForm = (Data) => {
+        console.log("đã validate");
+        if(Data.name.trim().length == 0 ){
+            err.errname = "Name is required!";
+        }
+        if(Data.description.trim().length == 0){
+            err.errdescription = "Description is required!";
+        }else if(Data.description.trim().length > 50){
+            err.errdescription = "Description is too long, maxlength = 50 !";
+        }
+
+        if(Data.price.trim().length == 0){
+            err.errprice = "Price is required!";
+        }else if(Data.price.trim()*1 != Data.price.trim()){
+            err.errprice = "Price is a number!";
+        }else if(Data.price.trim()*1 <= 0 ){
+            err.errprice = "Price is invalid!";
+        }
+        if(Data.quantity.trim().length == 0){
+            err.errquantity = "Quantity is required!";
+        }else if(Data.quantity.trim()*1 != Data.quantity.trim()){
+            err.errquantity = "Quantity is a number!";
+        }else if(Data.quantity.trim()*1< 0){
+            err.errquantity = "Quantity is invalid !";
+        }
+        if(Data.image.length == 0){
+            err.errimage = "Image is required!";
+        }
+        if(Data.cate_id.length == 0){
+            err.errcate = "Category is required!";
+        }
+        
+        seterrs(err);
+    }
 
     const imageHandler = (event) => {
         const reader = new FileReader();
         reader.onload = () => {
             if(reader.readyState){
                 setfileUpload(reader.result);  
-                setformData({...formData,image:reader.result});              
+                setformData({...formData,image:reader.result}); 
+                ValidateForm({...formData,image:reader.result});             
             }
         }
         reader.readAsDataURL(event.target.files[0]);
@@ -93,6 +155,7 @@ function CreateProduct({clickRow,formData, setformData,setproduct,product,setCli
     const myChangeHandler = (event) => {
         const {name,value} = event.target;
         setformData({...formData,[name]:value});
+        ValidateForm({...formData,[name]:value});
         // console.log(formData);
     }
     // const maxID = Math.max.apply(Math, product.map(x => x.id));
@@ -109,6 +172,7 @@ function CreateProduct({clickRow,formData, setformData,setproduct,product,setCli
             image:'',
             description: ''
           });
+        seterrs(err);
     }
 
     
@@ -116,27 +180,59 @@ function CreateProduct({clickRow,formData, setformData,setproduct,product,setCli
        height: '5px',
        width:'100%',
       };
-
+    
     
     // onChange={ myChangeHandler}
     return(
         <div>
             <form onSubmit={onSubmitHanger} encType="multipart/form-data">
-                <TextField fullWidth variant="filled" label="id" name="id" disabled="true"
+                <TextField 
+                    fullWidth 
+                    variant="filled" 
+                    label="id" 
+                    name="id" 
+                    disabled="true"
                     value={formData.id} 
-                    onChange={ myChangeHandler}/>
-                <TextField fullWidth variant="filled" label="name"  name="name" 
+                    onChange={ myChangeHandler}
+                 />
+                
+                <TextField 
+                    fullWidth 
+                    variant="filled" 
+                    label="name"  
+                    name="name" 
                     value={formData.name}
-                    onChange={ myChangeHandler}/>
-                <TextField fullWidth variant="filled" label="description" name="description" 
+                    onChange={ myChangeHandler}
+                    />
+                <span className="text-red-700 text-xs"> {(errs.errname.length > 0)?errs.errname:""}</span>
+                
+                <TextField 
+                    fullWidth 
+                    variant="filled" 
+                    label="description" 
+                    name="description" 
                     value={formData.description} 
-                    onChange={ myChangeHandler}/>
-                <TextField fullWidth variant="filled" label="price"  name="price" 
+                    onChange={ myChangeHandler}
+                 />
+                 {<span className="text-red-700 text-xs"> {(errs.errdescription.length > 0)?errs.errdescription:''}</span>}
+                <TextField 
+                    fullWidth 
+                    variant="filled" 
+                    label="price"  
+                    name="price" 
                     value={formData.price}
-                    onChange={ myChangeHandler}/>
-                <TextField fullWidth variant="filled" label="quantity" name="quantity" 
+                    onChange={ myChangeHandler}
+                 />
+                 {<span className="text-red-700 text-xs"> {(errs.errprice)?errs.errprice:''}</span>}
+                <TextField 
+                    fullWidth 
+                    variant="filled" 
+                    label="quantity" 
+                    name="quantity" 
                     value={formData.quantity} 
-                    onChange={ myChangeHandler}/>
+                    onChange={ myChangeHandler}
+                 />
+                  {<p className="text-red-700 text-xs"> {(errs.errquantity)?errs.errquantity:''}</p>}
                     <FormControlLabel
                         control={<Switch checked={formData.status} onChange={handleChangeDense} />}
                         label="Activate"
@@ -155,8 +251,9 @@ function CreateProduct({clickRow,formData, setformData,setproduct,product,setCli
                         ))}
                         
                         </Select>
+                        {<p className="text-red-700 text-xs"> {(errs.errcate)?errs.errcate:''}</p>}
                     </FormControl>
-                    
+                  
                     <div>
 
                         <Button variant="contained" component="label"  >
@@ -166,12 +263,14 @@ function CreateProduct({clickRow,formData, setformData,setproduct,product,setCli
                         <center><img src={formData.image} width="400px" className="rounded-2xl"/></center>
                         
                     </div>
+                    {<span className="text-red-700 text-xs"> {(errs.errimage)?errs.errimage:''}</span>}
                     <div style={divStyle}></div>
                     <Button variant="contained" color="secondary" type="submit">SUBMIT</Button>
                     <span className="mr-12">   </span>
                     <Button variant="contained" color="primary" onClick={myClickClear} >Clear Form</Button>
-                
+                    
             </form>
+
             <br></br>
         </div>
     );
