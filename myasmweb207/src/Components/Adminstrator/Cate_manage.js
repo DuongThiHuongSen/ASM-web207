@@ -16,6 +16,16 @@ import SearchIcon from '@material-ui/icons/Search';
 import {useState, useEffect} from 'react';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import PropTypes from 'prop-types';
+
+const propTypes = {
+    setClickRow: PropTypes.func.isRequired,
+    setformData: PropTypes.func.isRequired,
+    clickRow: PropTypes.number.isRequired,
+    cate: PropTypes.array.isRequired, 
+    setcate: PropTypes.func.isRequired, 
+    product: PropTypes.array.isRequired,
+};
 
 const useStyles2 = makeStyles((theme) => ({
   root: {
@@ -36,13 +46,6 @@ const useStyles2 = makeStyles((theme) => ({
     margin: 4,
   },
 }));
-// import {useState, useEffect} from 'react';
-
-// import { confirmAlert } from 'react-confirm-alert';
-
-// import Swal from 'sweetalert2/dist/sweetalert2.js';
-// import 'sweetalert2/src/sweetalert2.scss';
-
 
 const useStyles = makeStyles({
     table: {
@@ -260,3 +263,4 @@ function Product_manage({ setClickRow, setformData,clickRow, cate, setcate, prod
     );
 }
 export default Product_manage;
+Product_manage.propTypes = propTypes;

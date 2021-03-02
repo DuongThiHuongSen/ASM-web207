@@ -8,7 +8,7 @@ import axios from 'axios';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 
-function TopWatch({productsNam, productsNu , cart, setcart, formData}) {
+function TopWatch({productsNam, productsNu , cart, setcart}) {
     const createNotification = (type) => {
         return () => {
           switch (type) {
@@ -30,7 +30,7 @@ function TopWatch({productsNam, productsNu , cart, setcart, formData}) {
         };
       };
     
-      const addToCart = async (event ,product) => {
+      const addToCart =async (event ,product) => {
         // console.log(event.target);
         // console.log(product);
         if(cart.map( c => c.id).indexOf(product.id) != -1){ 
@@ -53,7 +53,7 @@ function TopWatch({productsNam, productsNu , cart, setcart, formData}) {
                 if(response.status && response.status == 201){
                     console.log(response);
                     console.log("thêm thành công rồi này");
-                    // setcart(...cart, response.data);
+                    setcart([...cart, response.data]);
                 }
             } catch (error) {
                 console.error(error)
@@ -93,7 +93,7 @@ function TopWatch({productsNam, productsNu , cart, setcart, formData}) {
                         (
                             <div className=" border border-gray-400 rounded-lg px-1 py-3" key={index}>
                                 <div className="w-4/5 mx-auto my-1 ">
-                                    <img className="transition delay-750 duration-700 ease-in-out transform hover:scale-110" src={x.image} alt=""/>
+                                    <img className="transition delay-750 duration-700 ease-in-out transform hover:scale-110" style={{height:"150px"}} src={x.image} alt=""/>
                                 </div>
                                 <div className="">
                                     <p>{x.name}</p>
@@ -105,7 +105,7 @@ function TopWatch({productsNam, productsNu , cart, setcart, formData}) {
                                     <p>{x.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}VNĐ</p>
                                 </div>
                                 <div onClick={createNotification('success')}>
-                                    <Button startIcon={<AddShoppingCartIcon/>} color="secondary" onClick={event => addToCart(event, x) }> Thêm vào giỏ hàng </Button>
+                                    <Button startIcon={<AddShoppingCartIcon/>} color="secondary" onClick={event => addToCart(event, x) }> Add to cart </Button>
                                 </div>
                             </div>
                         )
@@ -125,7 +125,7 @@ function TopWatch({productsNam, productsNu , cart, setcart, formData}) {
                         (
                             <div className=" border border-gray-400 rounded-lg px-1 py-3">
                                 <div className="w-4/5 mx-auto my-1 ">
-                                    <img className="transition delay-750 duration-700 ease-in-out transform hover:scale-110" src={x.image} alt=""/>
+                                    <img className="transition delay-750 duration-700 ease-in-out transform hover:scale-110"  src={x.image} alt=""/>
                                 </div>
                                 <div className="">
                                     <p>{x.name}</p>
@@ -134,10 +134,10 @@ function TopWatch({productsNam, productsNu , cart, setcart, formData}) {
                                     <span>{x.description}</span>
                                 </div>
                                 <div className="font-bold text-red-800">
-                                    <p>{x.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}VNĐ</p>
+                                    <p>{x.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}$</p>
                                 </div>
                                 <div onClick={createNotification('success')}>
-                                    <Button startIcon={<AddShoppingCartIcon/>} color="secondary" onClick={event => addToCart(event, x)}> Thêm vào giỏ hàng </Button>
+                                    <Button startIcon={<AddShoppingCartIcon/>} color="secondary" onClick={event => addToCart(event, x)}> Add to cart </Button>
                                     <NotificationContainer/>
                                 </div>
                                 

@@ -7,7 +7,7 @@ import Admin from './Components/Admin';
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import Cart from './Components/Cart/Cart';
-
+import AllProducts from './Components/AllProducts';
 // sử dụng router
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
@@ -26,10 +26,26 @@ function App() {
   return (
     <Router>
     <div>
-      <Head cartTotal = {cart.length}/>
+      <Head cart = {cart}/>
       <Route path="/admin" component={Admin}/>
-      <Route path="/cart" component={Cart}/>
-      <Route path="/" component={Home} exact={true}/>
+      <Route path="/cart" >
+        <Cart  
+          cart={cart}
+          setcart = {setcart}
+        />
+      </Route>
+      <Route path="/products" >
+         < AllProducts 
+            cart={cart}
+            setcart = {setcart}
+          />
+      </Route>
+      <Route path="/" exact={true}>
+          <Home 
+            cart={cart}
+            setcart = {setcart} 
+          />
+      </Route>
   </div>
   </Router>
   );

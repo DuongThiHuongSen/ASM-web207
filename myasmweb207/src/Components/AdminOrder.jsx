@@ -24,14 +24,8 @@ function AdminOrder() {
     
     const initValue = [];
     const [order, setorder] = useState(initValue);
-    const [clickRow, setClickRow] = useState(-1);
     const [product, setproducts] = useState(initValue);
-    const [formData, setformData] = useState({
-    id: "",
-    pro_id: '',
-    total: '',
-    date: '',
-  });
+
 useEffect(() => {
 
     async function getorder() {
@@ -60,25 +54,11 @@ useEffect(() => {
             <div className="h-28"></div>
             <Container maxWidth="md">
             <div style={divStyle}></div>
-            {/* <CreateOrder 
-                clickRow={clickRow} 
-                formData={formData} 
-                setformData={setformData}
-                setClickRow ={setClickRow}
-                order = {order}
-                setorder = {setorder}
-            /> */}
             < Orders 
                 orders = {order}
-                setorders = {setorder}
-                setformData={setformData}
                 product={product}
-                clickRow={clickRow} 
-                setClickRow ={setClickRow}
             />
             </Container>
-            {/* <Route path="/admin" component={Admin}/>
-          <Route path="/" component={Home} exact={true}/> */}
             </Router>
         </div>
     );

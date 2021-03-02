@@ -79,7 +79,6 @@ useEffect(() => {
                 product={product}
                 setClickRow ={setClickRow}
                 cate = {cate}
-                setcate = {setcate}
             />
             </Container>
             <Container maxWidth="lg">

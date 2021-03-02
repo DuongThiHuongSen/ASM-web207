@@ -7,13 +7,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import TableRow from '@material-ui/core/TableRow';
 import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
-import axios from 'axios';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import TablePagination from '@material-ui/core/TablePagination';
 import {useState, useEffect} from 'react';
+import PropTypes from 'prop-types';
+
+const propTypes = {
+    product : PropTypes.array.isRequired,
+    orders : PropTypes.array.isRequired,
+};
 
 const useStyles2 = makeStyles((theme) => ({
   root: {
@@ -68,7 +72,7 @@ const useStyles = makeStyles({
     return 0;
   }
 
-function Order_manage({orders, setClickRow, setformData, setorders,clickRow, cate, product }) {
+function Order_manage({orders, product }) {
     var rs = [];
     const Swal = require('sweetalert2');
     const [search, setsearch] = useState("");
@@ -98,8 +102,7 @@ function Order_manage({orders, setClickRow, setformData, setorders,clickRow, cat
         const proSearch = product.filter( p => {
             return p.name.toLowerCase().indexOf(event.target.value.trim().toLowerCase()) !== -1;
           }).map( x => x.id );
-        // console.log("Log list sản phẩm tìm kiếm được");
-        // console.log(proSearch);
+  
         setids(proSearch); // list id của sản phầm cần tìm hóa đơn
         proSearch.forEach(function(item, index, array) {
           orders.forEach( 
@@ -198,3 +201,4 @@ function Order_manage({orders, setClickRow, setformData, setorders,clickRow, cat
     );
 }
 export default Order_manage;
+Order_manage.propTypes = propTypes;

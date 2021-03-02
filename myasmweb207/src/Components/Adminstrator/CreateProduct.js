@@ -9,10 +9,20 @@ import FormControl from '@material-ui/core/FormControl';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Select from '@material-ui/core/Select';
-import Container from '@material-ui/core/Container';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import { useForm } from "react-hook-form";
+import PropTypes from 'prop-types';
+
+const propTypes = { // cart nhan vao phai la array .isRequied la yeu cau phai co
+    clickRow : PropTypes.number.isRequired,
+    formData : PropTypes.object.isRequired,
+    setformData: PropTypes.func.isRequired,
+    setproduct: PropTypes.func.isRequired,
+    product : PropTypes.array.isRequired,
+    setClickRow: PropTypes.func.isRequired,
+    cate: PropTypes.array.isRequired, // chuỗi các category
+
+};
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -24,14 +34,17 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-function CreateProduct({clickRow,formData, setformData,setproduct,product,setClickRow, cate, setcate}) {
+function CreateProduct({clickRow,formData, setformData,setproduct,product,setClickRow, cate}) {
 
-    const { register, handleSubmit, watch, errors } = useForm();
     const classes = useStyles();
     const CatehandleChange = (event) => {
         setformData({...formData,cate_id:event.target.value});
-        ValidateForm({...formData,cate_id:event.target.value});
         console.log("validtae 34");
+        if(event.target.value.length == 0){
+            err.errcate = "Category is required!";
+        }
+        seterrs(err);
+        // ValidateForm({...formData,cate_id:event.target.value});
     };
     const Swal = require('sweetalert2');
     const [fileUpload, setfileUpload] = useState(null);
@@ -52,8 +65,9 @@ function CreateProduct({clickRow,formData, setformData,setproduct,product,setCli
       };
     const onSubmitHanger = async (event) => {
         event.preventDefault(); // không load lại trang
-        ValidateForm(formData);
         console.log(formData);
+        ValidateForm(formData);
+        
         if( err.errname.length == 0 && 
             err.errcate.length == 0 &&
             err.errimage.length == 0 &&
@@ -91,7 +105,7 @@ function CreateProduct({clickRow,formData, setformData,setproduct,product,setCli
                         });
                         if(response.status && response.status == 201){
                             // console.log(response);
-                            setproduct(product=[...product, response.data]); // set lại Products
+                            setproduct([...product, response.data]); // set lại Products
                             Swal.fire('Create new record successfully!', '', 'success');
                             myClickClear();
                         }
@@ -117,18 +131,18 @@ function CreateProduct({clickRow,formData, setformData,setproduct,product,setCli
             err.errdescription = "Description is too long, maxlength = 50 !";
         }
 
-        if(Data.price.trim().length == 0){
+        if(Data.price.length == 0){
             err.errprice = "Price is required!";
-        }else if(Data.price.trim()*1 != Data.price.trim()){
+        }else if(Data.price*1 != Data.price){
             err.errprice = "Price is a number!";
-        }else if(Data.price.trim()*1 <= 0 ){
+        }else if(Data.price*1 <= 0 ){
             err.errprice = "Price is invalid!";
         }
-        if(Data.quantity.trim().length == 0){
+        if(Data.quantity.length == 0){
             err.errquantity = "Quantity is required!";
-        }else if(Data.quantity.trim()*1 != Data.quantity.trim()){
+        }else if(Data.quantity*1 != Data.quantity){
             err.errquantity = "Quantity is a number!";
-        }else if(Data.quantity.trim()*1< 0){
+        }else if(Data.quantity*1< 0){
             err.errquantity = "Quantity is invalid !";
         }
         if(Data.image.length == 0){
@@ -276,3 +290,4 @@ function CreateProduct({clickRow,formData, setformData,setproduct,product,setCli
     );
 }
 export default CreateProduct;
+CreateProduct.propTypes = propTypes;

@@ -8,21 +8,20 @@ import axios from 'axios';
 import {useState, useEffect} from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import ProductByCate from './ProductByCate';
-function Home(params) {
+function Home({cart, setcart}) {
   const initValue = [];
   const [productnam, setproductsNam] = useState(initValue);
   const [productnu, setproductsNu] = useState(initValue);
-  const [cateView, setcateView] = useState(-1);
+  const [cateView, setcateView] = useState({});
   const [cates, setcates] = useState(initValue);
-  const [cart, setcart] = useState(initValue);
   const [formData, setformData] = useState({
       id: '',
       amount : '',
     });
 
   useEffect(() => {
-      const urlNam = "http://localhost:3040/product?cate_id_like=1&status=true";
-      const urlNu = "http://localhost:3040/product?cate_id_like=2&status=true";
+      const urlNam = "http://localhost:3040/product?cate_id_like=1&status=true&_limit=4";
+      const urlNu = "http://localhost:3040/product?cate_id_like=2&status=true&_limit=4";
       async function getProductNam(url) {
         const {data} = await axios.get(url);
         setproductsNam(data);
@@ -36,16 +35,16 @@ function Home(params) {
         setcates(data);
         console.log(data);
       }
-      async function getcart() {
-        const {data} = await axios.get(`http://localhost:3040/cart`);
-        console.log(data);
-        setcart(data);
-      }
+      // async function getcart() {
+      //   const {data} = await axios.get(`http://localhost:3040/cart`);
+      //   console.log(data);
+      //   setcart(data);
+      // }
 
       getcate();
       getProductNam(urlNam);
       getProductNu(urlNu);
-      getcart();
+      // getcart();
     }, []);
 
   return(
@@ -59,12 +58,13 @@ function Home(params) {
           <TopWatch productsNam={productnam} 
                   productsNu={productnu}
                   cart= {cart}
-                  formData = {formData}/>
+                  formData = {formData}
+                  setcart = {setcart}/>
         </Route>
         
         {cates.map((value, index)=> 
           (
-            <Route path={'/category/'+value.id}  exact={true} >
+            <Route path={'/category/'+value.id}  >
               <ProductByCate 
                 cart= {cart}
                 cateView={cateView}

@@ -7,33 +7,33 @@ import Container from '@material-ui/core/Container';
 import { BrowserRouter as Router } from "react-router-dom";
 import Cart_manage from './Cart_manage';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-// import { confirmAlert } from 'react-confirm-alert';
+import PropTypes from 'prop-types';
 
-// import Swal from 'sweetalert2/dist/sweetalert2.js';
-// import 'sweetalert2/src/sweetalert2.scss'
+const propTypes = {
+    cart : PropTypes.arrayOf(
+        PropTypes.shape({
+            id : PropTypes.number.isRequired,
+            amount : PropTypes.number.isRequired
+        })
+    ).isRequired, // cart nhan vao phai la array .isRequied la yeu cau phai co
+    setcart : PropTypes.func.isRequired,
+};
 
-const useStyles = makeStyles({
-    table: {
-      minWidth: 650,
-    },
-  });
 
-
-function Cart() {
+function Cart({cart, setcart}) {
     
     const initValue = [];
-    const [cart, setcart] = useState(initValue);
     const [order, setorder] = useState(initValue);
     const [product, setproducts] = useState(initValue);
 
 useEffect(() => {
 
-    async function getcart() {
-      const {data} = await axios.get(`http://localhost:3040/cart`);
-      console.log(data);
-      setcart(data);
+    // async function getcart() {
+    //   const {data} = await axios.get(`http://localhost:3040/cart`);
+    //   console.log(data);
+    //   setcart(data);
       
-    }
+    // }
     async function getProduct() {
         const {data : x} = await axios.get("http://localhost:3040/product");
         setproducts(x);
@@ -46,7 +46,6 @@ useEffect(() => {
         setorder(data);
       }
     // getProductforkey(search);
-    getcart();
     getProduct();
     getorder();
   }, []);
@@ -79,3 +78,4 @@ useEffect(() => {
     );
 }
 export default Cart;
+Cart.propTypes = propTypes;

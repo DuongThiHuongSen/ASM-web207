@@ -8,20 +8,25 @@ import {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 
 const propTypes = {
-    cart : PropTypes.array.isRequired,
-    cateView : PropTypes.object.isRequired
+    cart : PropTypes.arrayOf(
+        PropTypes.shape({
+            id : PropTypes.number.isRequired,
+            amount : PropTypes.number.isRequired
+        })
+    ).isRequired, // cart nhan vao phai la array .isRequied la yeu cau phai co
+    setcart : PropTypes.func.isRequired,
 };
 
-function ProductByCate({cart, cateView}) {
-    const [productBycate, setproductBycate] = useState([]);
+function AllProducts({cart, setcart}) {
+    const [product, setproduct] = useState([]);
     useEffect(() => {
-        async function getproductbyCateID(cateID) {
-            const url = `http://localhost:3040/product?cate_id_like=${ cateID }&status=true`;
+        async function getproductbyCateID() {
+            const url = `http://localhost:3040/product?status=true`;
             const {data} = await axios.get(url);
             console.log(data);
-            setproductBycate(data);
+            setproduct(data);
           }
-          getproductbyCateID(cateView.id);
+          getproductbyCateID();
         
     }, []);
     const createNotification = (type) => {
@@ -68,7 +73,9 @@ function ProductByCate({cart, cateView}) {
                 if(response.status && response.status == 201){
                     console.log(response);
                     console.log("thêm thành công rồi này");
-                    // setcart(...cart, response.data);
+                    console.log([...cart, response.data]);
+                    setcart([...cart, response.data]);
+
                 }
             } catch (error) {
                 console.error(error)
@@ -93,15 +100,16 @@ function ProductByCate({cart, cateView}) {
     }
     return (
         <div>
-            <div class="w-4/5 mx-auto mt-20">
-                <h1 class="text-center font-bold text-2xl ">{cateView.category_name.toUpperCase()}</h1>
+            <div class="w-4/5 mx-auto ">
+            <div className="h-32"></div>
+                <h1 class="text-center font-bold text-2xl">ALL PPRODUCTS</h1>
                 <div class="grid lg:grid-cols-4  border-t border-gray mt-2 pt-10 relative">
-                    <div class=" lg:col-span-3 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 items-center text-center">
-                    {productBycate.map((x, index) => 
+                    <div class=" lg:col-span-4 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 items-center text-center">
+                    {product.map((x, index) => 
                         (
                             <div className=" border border-gray-400 rounded-lg px-1 py-3" key={index}>
-                                <div className="w-4/5 mx-auto my-1 ">
-                                    <img className="transition delay-750 duration-700 ease-in-out transform hover:scale-110" src={x.image} alt=""/>
+                                <div className="w-11/12 mx-auto my-1 ">
+                                    <img className="transition delay-750 duration-700 ease-in-out transform hover:scale-110" style={{height:"228px"}} src={x.image} alt=""/>
                                 </div>
                                 <div className="">
                                     <p>{x.name}</p>
@@ -126,5 +134,5 @@ function ProductByCate({cart, cateView}) {
         </div>
     );
 }
-export default ProductByCate;
-ProductByCate.propTypes = propTypes;
+export default AllProducts;
+AllProducts.propTypes = propTypes;

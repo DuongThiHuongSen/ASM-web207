@@ -16,6 +16,18 @@ import TablePagination from '@material-ui/core/TablePagination';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import {useState, useEffect} from 'react';
+import PropTypes from 'prop-types';
+
+const propTypes = {
+    product : PropTypes.array.isRequired, // cart nhan vao phai la array .isRequied la yeu cau phai co
+    setcart : PropTypes.func.isRequired,
+    clickRow : PropTypes.number.isRequired,
+    setClickRow: PropTypes.func.isRequired,
+    formData : PropTypes.object.isRequired,
+    setformData : PropTypes.func.isRequired,
+    setproduct: PropTypes.func.isRequired,
+    cate: PropTypes.array.isRequired, // chuỗi các category
+};
 
 const useStyles2 = makeStyles((theme) => ({
   root: {
