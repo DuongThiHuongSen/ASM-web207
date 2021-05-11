@@ -190,24 +190,42 @@
       "total": 1,
       "date": "2/3/2021",
       "total_money": 2000
+    },
+    {
+      "id": 37,
+      "pro_id": 11,
+      "total": 1,
+      "date": "13/3/2021",
+      "total_money": 100
+    },
+    {
+      "id": 38,
+      "pro_id": 11,
+      "total": 4,
+      "date": "14/3/2021",
+      "total_money": 400
     }
   ],
   "cart": [
     {
       "id": 10,
       "amount": 1
+    }
+  ],
+  "admin": [
+    {
+      "id": 1,
+      "email": "huongsen19122001@gmail.com",
+      "password": "1234567",
+      "status": true,
+      "role": 1
     },
     {
-      "id": 12,
-      "amount": 1
-    },
-    {
-      "id": 26,
-      "amount": 1
-    },
-    {
-      "id": 24,
-      "amount": 1
+      "id": 2,
+      "userName": "huongsen19122002@gmail.com",
+      "password": "1234567",
+      "status": true,
+      "role": 1
     }
   ]
 }

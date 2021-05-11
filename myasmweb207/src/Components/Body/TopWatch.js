@@ -16,7 +16,7 @@ function TopWatch({productsNam, productsNu , cart, setcart}) {
               NotificationManager.info('Info message');
               break;
             case 'success':
-              NotificationManager.success('Success ', 'Add To Card');
+              NotificationManager.success('Success ', 'Add To Card', 2000);
               break;
             case 'warning':
               NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
@@ -51,8 +51,8 @@ function TopWatch({productsNam, productsNu , cart, setcart}) {
                     },
                 });
                 if(response.status && response.status == 201){
-                    console.log(response);
-                    console.log("thêm thành công rồi này");
+                    // console.log(response);
+                    // console.log("thêm thành công rồi này");
                     setcart([...cart, response.data]);
                 }
             } catch (error) {
@@ -78,10 +78,10 @@ function TopWatch({productsNam, productsNu , cart, setcart}) {
     }
     return (
         <div>
-            <div class="w-4/5 mx-auto mt-20">
-                <h1 class="text-center font-bold text-2xl font-serif">TOP MEN'S WATCH</h1>
-                <div class="grid lg:grid-cols-4  border-t border-gray mt-2 pt-10 relative">
-                    <div class="w-4/5   hidden sm:hidden md:hidden lg:block ">
+            <div className="w-4/5 mx-auto mt-20">
+                <h1 className="text-center font-bold text-2xl font-serif">TOP MEN'S WATCH</h1>
+                <div className="grid lg:grid-cols-4  border-t border-gray mt-2 pt-10 relative">
+                    <div className="w-4/5   hidden sm:hidden md:hidden lg:block ">
                         <div className="absolute top-28 left-20 text-white">
                             <h2 className="text-xl">ĐỒNG HỒ NAM</h2>
                             <Link to="" style={aStyle1}>Xem tất cả ></Link>
@@ -114,18 +114,18 @@ function TopWatch({productsNam, productsNu , cart, setcart}) {
                     </div>
                 </div>
             </div>
-            <div class="w-full mt-20">
+            <div className="w-full mt-20">
                 <Link to=""><img src={Untitled} alt=""/></Link>
             </div>
-            <div class="w-4/5 mx-auto mt-20">
-                <h1 class="text-center font-bold text-2xl font-serif">TOP WOMEN'S WATCH</h1>
-                <div class="grid lg:grid-cols-4  border-t border-gray mt-2 pt-10 ">
+            <div className="w-4/5 mx-auto mt-20">
+                <h1 className="text-center font-bold text-2xl font-serif">TOP WOMEN'S WATCH</h1>
+                <div className="grid lg:grid-cols-4  border-t border-gray mt-2 pt-10 ">
                     <div class=" lg:col-span-3 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 items-center text-center">
                     {productsNu.map((x) => 
                         (
                             <div className=" border border-gray-400 rounded-lg px-1 py-3">
                                 <div className="w-4/5 mx-auto my-1 ">
-                                    <img className="transition delay-750 duration-700 ease-in-out transform hover:scale-110"  src={x.image} alt=""/>
+                                    <img className="transition delay-750 duration-700 ease-in-out transform hover:scale-110" style={{height:"150px"}} src={x.image} alt=""/>
                                 </div>
                                 <div className="">
                                     <p>{x.name}</p>

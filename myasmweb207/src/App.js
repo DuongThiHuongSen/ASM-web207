@@ -8,11 +8,19 @@ import {useState, useEffect} from 'react';
 import axios from 'axios';
 import Cart from './Components/Cart/Cart';
 import AllProducts from './Components/AllProducts';
+// import Login from './Components/Login';
 // sử dụng router
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 function App() {
   const [cart, setcart] = useState([]);
+  // const [admin, setadmin] = useState({
+  //   userName:"",
+  //   password:"",
+  //   status:"",
+  //   role:""
+  // });
+  // const [token, settoken] = useState(false);
   useEffect(() => {
     async function getcart() {
       const {data} = await axios.get(`http://localhost:3040/cart`);
@@ -26,27 +34,27 @@ function App() {
   return (
     <Router>
     <div>
-      <Head cart = {cart}/>
-      <Route path="/admin" component={Admin}/>
-      <Route path="/cart" >
-        <Cart  
-          cart={cart}
-          setcart = {setcart}
-        />
-      </Route>
-      <Route path="/products" >
-         < AllProducts 
-            cart={cart}
-            setcart = {setcart}
-          />
-      </Route>
-      <Route path="/" exact={true}>
-          <Home 
-            cart={cart}
-            setcart = {setcart} 
-          />
-      </Route>
-  </div>
+          <Head cart = {cart}/>
+          <Route path="/admin" component={Admin}/>
+          <Route path="/cart" >
+            <Cart  
+              cart={cart}
+              setcart = {setcart}
+            />
+          </Route>
+          <Route path="/products" >
+            < AllProducts 
+                cart={cart}
+                setcart = {setcart}
+              />
+          </Route>
+          <Route path="/" exact={true}>
+              <Home 
+                cart={cart}
+                setcart = {setcart} 
+              />
+          </Route>
+        </div>
   </Router>
   );
 }

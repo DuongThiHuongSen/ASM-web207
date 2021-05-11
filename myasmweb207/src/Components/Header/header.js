@@ -28,7 +28,7 @@ function Header({cart}) {
             </ul>   
         </div>  
         <div className="flex w-1/4 text-white items-center lg:pl-20">
-            <Link  className="text-white  font-serif" to="#">ĐĂNG NHẬP</Link>
+            {/* <Link to="/login"  className="text-white  font-serif" to="#">ĐĂNG NHẬP</Link> */}
             <Link to="/cart" className="relative">
                 <img className=" w-10 ml-5 " src={Cart} alt=""/>
                 <p className="absolute top-1 right-0  h-4 w-4 flex items-center justify-center rounded-full bg-red-500 p-1">{cart.length}</p>

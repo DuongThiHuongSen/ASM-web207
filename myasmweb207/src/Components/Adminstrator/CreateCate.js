@@ -4,8 +4,17 @@ import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import React from 'react';
 import {useState} from 'react';
+import PropTypes from 'prop-types';
 
+const propTypes = { // cart nhan vao phai la array .isRequied la yeu cau phai co
+    clickRow : PropTypes.number.isRequired,
+    setClickRow: PropTypes.func.isRequired,
+    formData : PropTypes.object.isRequired,
+    setformData: PropTypes.func.isRequired,
+    cate: PropTypes.array.isRequired, // chuỗi các category
+    setcate: PropTypes.func.isRequired,
 
+};
 function CreateCate({clickRow, setClickRow,formData, setformData, cate, setcate}) {
     const err = {
         errname: '',
@@ -38,10 +47,7 @@ function CreateCate({clickRow, setClickRow,formData, setformData, cate, setcate}
                         url: url,
                         data: formData,
                     });
-                    // axios.put(url, formData)
-                    // .then((result)=>{
-                    //     console.log(result);
-                    // })
+                    
                     if(response.status && response.status == 200){
                         setcate(cate=[...cate.slice(0, clickRow),formData, ...cate.slice(clickRow+1, cate.length)]); // set lại Products
                         Swal.fire('Update successfully!', '', 'success');
@@ -148,3 +154,4 @@ function CreateCate({clickRow, setClickRow,formData, setformData, cate, setcate}
     );
 }
 export default CreateCate;
+CreateCate.propTypes = propTypes;
