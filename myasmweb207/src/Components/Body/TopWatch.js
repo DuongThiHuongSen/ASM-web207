@@ -19,10 +19,10 @@ function TopWatch({productsNam, productsNu , cart, setcart}) {
               NotificationManager.success('Success ', 'Add To Card', 2000);
               break;
             case 'warning':
-              NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
+              NotificationManager.warning('Warning message', 'Close after 3000ms', 2000);
               break;
             case 'error':
-              NotificationManager.error('Error message', 'Click me!', 5000, () => {
+              NotificationManager.error('Error message', 'Click me!', 2000, () => {
                 alert('callback');
               });
               break;
@@ -138,7 +138,7 @@ function TopWatch({productsNam, productsNu , cart, setcart}) {
                                 </div>
                                 <div onClick={createNotification('success')}>
                                     <Button startIcon={<AddShoppingCartIcon/>} color="secondary" onClick={event => addToCart(event, x)}> Add to cart </Button>
-                                    <NotificationContainer/>
+                                    {/* <NotificationContainer/> */}
                                 </div>
                                 
                             </div>

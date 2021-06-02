@@ -267,7 +267,8 @@ function CreateProduct({clickRow,formData, setformData,setproduct,product,setCli
                         </Select>
                         {<p className="text-red-700 text-xs"> {(errs.errcate)?errs.errcate:''}</p>}
                     </FormControl>
-                  
+                    
+                    
                     <div>
 
                         <Button variant="contained" component="label"  >
